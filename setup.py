@@ -4,7 +4,7 @@ version = "1.0.0"
 
 setup(
     name='SferumBridge',
-    version='0.1.0',
+    version=version,
     author='Sharkow1743',
     author_email='sharkow1743@gmail.com',
     description='An API wrapper for Sferum.',
