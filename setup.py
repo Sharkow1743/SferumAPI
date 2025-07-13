@@ -8,7 +8,7 @@ setup(
     author='Sharkow1743',
     author_email='sharkow1743@gmail.com',
     description='An API wrapper for Sferum.',
-    long_description=open('README.md').read(),
+    long_description=open('README.md', encoding='utf-8').read(),
     long_description_content_type='text/markdown',
     url='https://github.com/Sharkow1743/SferumAPI',
     download_url=f'https://github.com/Sharkow1743/SferumAPI/archive/v{version}.zip',
