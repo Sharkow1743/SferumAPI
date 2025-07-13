@@ -125,7 +125,7 @@ class SferumAPI:
         }
         return self.request(url, data)
 
-    def get_history(self, peer_id: int, count: int, offset: int, start_cmid: int = 99999999):
+    def get_history(self, peer_id: int, count: int, offset: int = 0, start_cmid: int = 99999999):
         """Retrieves the message history for a user.
 
         Args:
