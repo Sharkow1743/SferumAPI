@@ -14,9 +14,11 @@ def parse_markdown(text):
     result = []
     
     def process_match(match, md_type):
+        actual_offset = match.start() - sum(len(m.group(0)) - len(m.group(1)) for m in re.finditer(r'\[(.*?)\]\((.*?)\)|\*(.*?)\*|/(.*?)/|~(.*?)~', text[:match.start()]))
+        
         format = {
             "type": md_type,
-            "offset": match.start(),
+            "offset": actual_offset,
             "length": len(match.group(1)),
         }
         if md_type == 'url':
