@@ -26,11 +26,10 @@ jobs:
         with:
           python-version: "3.x"
 
-      - name: Instal setuptools
-        run: pip install setuptools
-
-      - name: Instal twine
-        run: pip install twine
+      - name: Setup
+        run: |
+          pip install setuptools
+          pip install twine
 
       - name: Build
         run: python setup.py sdist
