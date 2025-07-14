@@ -222,5 +222,3 @@ class SferumAPI:
             raise RuntimeError(f"Request to {url} timed out.")
         except requests.exceptions.RequestException as e:
             raise RuntimeError(f"An error occurred during the request to {url}: {e}")
-        
-parse_markdown('asdasd [123](sdsdsd)')
