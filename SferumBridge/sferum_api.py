@@ -20,7 +20,8 @@ def parse_markdown(text):
         result.append({
             "type": md_type,
             "offset": match.start(),
-            "length": len(match.group(1))
+            "length": len(match.group(1)),
+            **(match.groupdict() if 'url' in match.groupdict() else {})
         })
         return match.group(1)
     
