@@ -1,10 +1,5 @@
 # This workflow will upload a Python Package to PyPI when a release is created
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python#publishing-to-package-registries
-
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
+# It will also update the version variable in setup.py to match the release tag
 
 name: Upload Python Package
 
@@ -26,15 +21,25 @@ jobs:
         with:
           python-version: "3.x"
 
-      - name: Setup
+      - name: Update version in setup.py
         run: |
-          pip install setuptools
-          pip install twine
+          # Get release tag name (version)
+          RELEASE_VERSION="${{ github.event.release.tag_name }}"
+          
+          # Update version variable in setup.py
+          sed -i "s/^version\s*=\s*['\"][^'\"]*['\"]/version = '$RELEASE_VERSION'/" setup.py
+          
+          # Verify the change
+          echo "Updated version in setup.py to:"
+          grep "^version\s*=" setup.py
 
-      - name: Build
-        run: python setup.py sdist
-          
-          
+      - name: Install build tools
+        run: |
+          pip install setuptools twine
+
+      - name: Build package
+        run: |
+          python setup.py sdist
 
       - name: Upload distributions
         uses: actions/upload-artifact@v4
@@ -50,16 +55,16 @@ jobs:
       id-token: write
     environment:
       name: pypi
-      url: https://pypi.org/project/SferumBridge/${{ github.event.release.name }}
+      url: https://pypi.org/project/SferumBridge/${{ github.event.release.tag_name }}
 
     steps:
-      - name: Retrieve release distributions
+      - name: Retrieve distributions
         uses: actions/download-artifact@v4
         with:
           name: release-dists
           path: dist/
 
-      - name: Publish release distributions to PyPI
+      - name: Publish to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
           packages-dir: dist/
