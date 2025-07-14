@@ -24,6 +24,7 @@ def parse_markdown(text):
         })
         return match.group(1)
     
+    text = re.sub(r'\[(.*?)\]\((?P<url>.*?)\)', lambda m: process_match(m, "url"), text)
     text = re.sub(r'\*(.*?)\*', lambda m: process_match(m, "bold"), text)
     text = re.sub(r'/(.*?)/', lambda m: process_match(m, "italic"), text)
     text = re.sub(r'~(.*?)~', lambda m: process_match(m, "underline"), text)
