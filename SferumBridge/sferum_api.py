@@ -17,12 +17,16 @@ def parse_markdown(text):
     result = []
     
     def process_match(match, md_type):
-        result.append({
+        format = {
             "type": md_type,
             "offset": match.start(),
             "length": len(match.group(1)),
-            **(match.groupdict() if 'url' in match.groupdict() else {})
-        })
+        }
+        if md_type == 'url':
+            format['url'] = match.group(2)
+
+        result.append(format)
+
         return match.group(1)
     
     text = re.sub(r'\[(.*?)\]\((?P<url>.*?)\)', lambda m: process_match(m, "url"), text)
@@ -218,3 +222,5 @@ class SferumAPI:
             raise RuntimeError(f"Request to {url} timed out.")
         except requests.exceptions.RequestException as e:
             raise RuntimeError(f"An error occurred during the request to {url}: {e}")
+        
+parse_markdown('asdasd [123](sdsdsd)')
