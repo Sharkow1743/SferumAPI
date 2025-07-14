@@ -33,7 +33,7 @@ jobs:
         run: pip install twine
 
       - name: Build
-        run: python python setup.py sdist
+        run: python setup.py sdist
           
           
 
