@@ -54,7 +54,7 @@ class SferumAPI:
         Returns:
             dict: The response from the API after sending the message.
         """
-        url = "method/messages.send?v=5.241"
+        url = "method/messages.send"
         data = {
             "access_token": self.user['access_token'],
             "peer_id": peer_id,
@@ -88,7 +88,7 @@ class SferumAPI:
         Returns:
             dict: The response from the API after the request.
         """
-        url = "method/messages.delete?v=5.241"
+        url = "method/messages.delete"
         data = {
             "peer_id": peer_id,
             "cmids": message_conversation_id,
@@ -111,7 +111,7 @@ class SferumAPI:
         Returns:
             dict: The response containing the message history.
         """
-        url = "method/messages.getHistory?v=5.241"
+        url = "method/messages.getHistory"
         data = {
             "access_token": self.user['access_token'],
             "peer_id": peer_id,
@@ -139,15 +139,15 @@ class SferumAPI:
         return self.get_history(peer_id, 1, 0, message_conversation_id)
 
     def execute(self, code: str):
-        """Executes a small piece of JavaScript code on the server.
+        """Executes a small piece of JS-like code on the server.
 
         Args:
-            code (str): The JavaScript code to execute.
+            code (str): The JS-like code to execute.
 
         Returns:
             dict: The response from the server after executing the code.
         """
-        url = "method/execute?v=5.241"
+        url = "method/execute"
         data = {
             "access_token": self.user['access_token'],
             "code": code,
@@ -167,7 +167,7 @@ class SferumAPI:
         Raises:
             RuntimeError: If request times out or encounters an error.
         """
-        url = "https://api.vk.me/" + url
+        url = "https://api.vk.me/" + url + "?v=5.241"
         try:
             response = requests.post(url, data=data, timeout=3)
             response = response.json()
