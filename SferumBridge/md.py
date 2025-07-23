@@ -14,7 +14,12 @@ def parse_markdown(text):
     result = []
     
     def process_match(match, md_type):
-        actual_offset = match.start() - sum(len(m.group(0)) - len(m.group(1)) for m in re.finditer(r'\[(.*?)\]\((.*?)\)|\*(.*?)\*|/(.*?)/|~(.*?)~', text[:match.start()]))
+        actual_offset = match.start() - sum(
+            len(m.group(0)) - sum(
+                len(m.group(i)) for i in range(1, 6) if m.group(i) is not None
+            )
+            for m in re.finditer(r'\[(.*?)\]\((.*?)\)|\*(.*?)\*|/(.*?)/|_(.*?)_', text[:match.start()])
+        )
         
         format = {
             "type": md_type,
@@ -31,6 +36,6 @@ def parse_markdown(text):
     text = re.sub(r'\[(.*?)\]\((?P<url>.*?)\)', lambda m: process_match(m, "url"), text)
     text = re.sub(r'\*(.*?)\*', lambda m: process_match(m, "bold"), text)
     text = re.sub(r'/(.*?)/', lambda m: process_match(m, "italic"), text)
-    text = re.sub(r'~(.*?)~', lambda m: process_match(m, "underline"), text)
+    text = re.sub(r'_(.*?)_', lambda m: process_match(m, "underline"), text)
     
     return result, text.strip()
