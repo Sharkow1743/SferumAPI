@@ -15,9 +15,7 @@ def parse_markdown(text):
     
     def process_match(match, md_type):
         actual_offset = match.start() - sum(
-            len(m.group(0)) - sum(
-                len(m.group(i)) for i in range(1, 6) if m.group(i) is not None
-            )
+            len(m.group(0)) - (len(m.group(1)) if m.group(1) is not None else 0)
             for m in re.finditer(r'\[(.*?)\]\((.*?)\)|\*(.*?)\*|/(.*?)/|_(.*?)_', text[:match.start()])
         )
         
